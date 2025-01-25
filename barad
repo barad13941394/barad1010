@@ -3,27 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5 ابرقهرمان</title>
+    <title>5 ابرقهرمان - انتخاب رنگ</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #000, #ff0000, #ffff00);
-            margin: 0;
-            padding: 0;
-            color: #fff;
-            text-align: center;
+        /* استایل‌های کلی */
+        :root {
+            --bg-color: #1a1a1a;
+            --primary-color: #ff4081;
+            --secondary-color: #e91e63;
+            --text-color: #ffffff;
         }
 
-        .form-container, .content, .container {
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            text-align: center;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .form-container, .content, .container, .story, .summary, .settings, .vip-container {
             margin: 20px auto;
             padding: 20px;
             max-width: 800px;
-            background: #000;
+            background: rgba(0, 0, 0, 0.7);
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(255, 0, 0, 0.5);
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
         }
 
-        .form-container input, .form-container button {
+        .form-container input, .form-container button, .vip-container input, .vip-container button {
             width: 90%;
             padding: 10px;
             margin: 10px 0;
@@ -31,43 +40,83 @@
             border-radius: 5px;
         }
 
-        .form-container button {
-            background: #ff0000;
-            color: #fff;
+        .form-container button, .vip-container button {
+            background: var(--primary-color);
+            color: var(--text-color);
             border: none;
             cursor: pointer;
+            transition: background 0.3s ease;
         }
 
-        .form-container button:hover {
-            background: #ffff00;
-            color: #000;
+        .form-container button:hover, .vip-container button:hover {
+            background: var(--secondary-color);
         }
 
-        .content {
+        .content, .vip-content {
             display: none;
         }
 
-        .character {
+        .character, .story, .summary, .vip-content {
             margin: 20px auto;
             padding: 15px;
-            background: #000;
+            background: rgba(0, 0, 0, 0.8);
             border-radius: 10px;
-            max-width: 500px;
+            max-width: 800px;
             text-align: left;
-            box-shadow: 0 4px 8px rgba(255, 0, 0, 0.5);
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
         }
 
-        .character h3 {
-            color: #ffff00;
+        .character h3, .story h2, .summary h2, .vip-content h2 {
+            color: var(--primary-color);
         }
 
         footer {
-            background: #ff0000;
+            background: var(--primary-color);
             padding: 10px;
-            color: white;
+            color: var(--text-color);
             position: fixed;
             bottom: 0;
             width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .summary p, .vip-content p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .settings, .vip-container {
+            text-align: left;
+        }
+
+        .settings label, .vip-container label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        .settings input[type="color"], .vip-container input[type="password"] {
+            width: 100%;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .vip-content ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .vip-content ul li {
+            margin: 10px 0;
+        }
+
+        .vip-content ul li a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .vip-content ul li a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -77,16 +126,40 @@
         <h1>ورود به سایت</h1>
         <p>برای ورود اطلاعات زیر را وارد کنید:</p>
         <input type="number" id="age" placeholder="سن خود را وارد کنید">
-        <input type="text" id="email" placeholder="ایمیل خود را وارد کنید (فقط @gmail.com)">
+        <input type="text" id="email" placeholder="ایمیل خود را وارد کن">
         <button onclick="checkLogin()">ورود</button>
-        <p id="error" style="color: red;"></p>
+        <p id="error" style="color: var(--primary-color);"></p>
     </div>
 
     <!-- محتوای سایت -->
     <div class="content">
+        <!-- تنظیمات رنگ -->
+        <div class="settings">
+            <h2>تنظیمات رنگ</h2>
+            <label for="bg-color">رنگ پس‌زمینه:</label>
+            <input type="color" id="bg-color" value="#1a1a1a">
+
+            <label for="primary-color">رنگ اصلی:</label>
+            <input type="color" id="primary-color" value="#ff4081">
+
+            <label for="secondary-color">رنگ ثانویه:</label>
+            <input type="color" id="secondary-color" value="#e91e63">
+
+            <label for="text-color">رنگ متن:</label>
+            <input type="color" id="text-color" value="#ffffff">
+        </div>
+
         <div class="container">
             <h2>به دنیای 5 ابرقهرمان خوش آمدید</h2>
             <p>شخصیت‌ها و داستان‌های ثبت‌شده:</p>
+        </div>
+
+        <!-- خلاصه داستان -->
+        <div class="summary">
+            <h2>خلاصه داستان</h2>
+            <p>
+                در این داستان، امین و امید دو دوست هستند که با دیدن یک دزد، تصمیم می‌گیرند او را دستگیر کنند. پس از تعقیب و گریزهای فراوان، دزد دستگیر می‌شود اما از زندان فرار می‌کند و با تشکیل یک تیم دزدان، به پایگاه پلیس حمله می‌کند. امین و امید با کمک دوستانشان، سارا و محمد، برای نجات شهر و مقابله با دزدان وارد عمل می‌شوند. در ادامه، دزدان یک ربات قدرتمند می‌سازند و ابرقهرمانان برای شکست آن‌ها باید سنگ‌های جادویی را پیدا کنند. این ماجراجویی پر از هیجان، خطر و دوستی است که در نهایت به نجات شهر منجر می‌شود.
+            </p>
         </div>
 
         <!-- اطلاعات هر شخصیت -->
@@ -110,19 +183,103 @@
             <p>محمد یک مهندس رباتیک نابغه است. او ربات‌های پیشرفته‌ای می‌سازد که در نبردهای سخت به تیم کمک می‌کنند.</p>
         </div>
 
+        <!-- داستان کامل -->
+        <div class="story">
+            <h2>داستان کامل</h2>
+            <p>
+                فصل اول: دستگیری دزد<br>
+                یک روز امین و امید در خیابان قدم می‌زدند. بعد دیدند که یک نفر دزدی می‌کند. بعد با خود فکر کردند که به پلیس زنگ بزنند. پلیس‌ها چند دقیقه بعد آمدند، اما آن‌ها نتوانستند دزد را بگیرند.<br>
+                امین و امید می‌خواستند دزد را بگیرند و به دنبال رد پای دزد رفتند. ردپای دزد به ساحل رسید و دیدند دزد دارد سوار قایق می‌شود. آن‌ها هم سوار قایق شدند. آن‌ها دنبال دزد رفتند و به جزیره‌ای خیلی خیلی دور افتاده رسیدند. سپس دیدند دزد از کوه بالا می‌رود، آن‌ها هم از کوه بالا رفتند. دزد وارد یک غار شد. آن‌ها خیلی خیلی آرام در داخل غار رفتند و دیدند دزد دارد یک الماس را برمی‌دارد. امین و امید دزد را دستگیر کردند و به شهر رفتند و به پلیس تحویل دادند.<br>
+                یک روز در زندان برای دزد جعبه‌ای آمد. از طرف یک غریبه! در داخل جعبه کلید بود. وقتی نگهبان خوابش برد، دزد با آن کلید فرار کرد. وقتی نگهبان بیدار شد دید دزد فرار کرده است. زنگ خطر را زد، بعد همه‌ی پلیس‌ها دنبال دزد رفتند. دزد به طرف الماس رفت. ولی آن‌جا تله‌های خطرناکی وجود داشت! دزد از تله‌ها رد شد. وقتی دزد الماس را برداشت، آژیر خطر به صدا درآمد، همان موقع دزد فرار کرد، وقتی پلیس‌ها به آن‌جا رسیدند دزد رفته بود. دزد از زندان فرار کرد.<br>
+                دزد دید یک دزد دیگر دارد دزدی می‌کند آن‌ها با هم یک تیم شدند. و هی بیشتر و بیشتر می‌شدند. آن‌ها نقشه کشیدند که به پایگاه پلیس حمله کنند! روز بعد نقشه را عملی کردند و پلیس‌ها را دستگیر کردند. اما سارا از مرکز پلیس فرار کرد.<br>
+                امین و امید خبردار شدند که یک تیم دزد به پایگاه پلیس حمله کردند. امین و امید به دوستان‌شان گفتند: «بچه‌ها بیایید با هم پایگاه پلیس را نجات بدیم.» اما فقط یک نفر قبول کرد. اسم آن نفر علی بود. آن‌ها نقشه کشیدند که پایگاه پلیس را نجات بدهند.<br>
+                روز بعد نقشه را اجرا کردند. وقتی در خیابان بودند سارا را دیدند و سارا توی تیم‌شان رفت! آن‌ها به پایگاه دزدها نزدیک شدند، که یک نگهبان دیدند سارا یک لگد به نگهبان زد، بعد نگهبان بیهوش شد، بعد داخل ساختمان رفتند. آن‌ها به طرف راست رفتند و هی به طرف اشتباه می‌رفتند و وقتی جلوتر می‌رفتند نگهبان‌های بیشتری رو می‌دیدند و فرار می‌کردند. نگهبان‌ها دنبال‌شان می‌رفتند. آن‌ها از چهار طرف محاصره شدند. آن‌ها با نگهبان‌ها جنگیدند. یک نگهبان رفت و به رئیس‌شان خبر داد و گفت: «قربان یک تیم به ما حمله کرده است.» هان چه تور ممکنه ما که خیلی قوی هستیم، می‌دانم چه کار کنم. یک ربات می‌سازم! دزد گفت: «اما قربان ما که ربات رو نداریم.» وسایلش رو گیر بیار!<br>
+                <br>
+                فصل دوم: جنگ ربات‌ها<br>
+                اسم من محمد است. من با امین و امید دوستم. آن‌ها یک تیم درست کرده‌اند. من هم دلم می‌خواست توی تیم‌شان باشم. اما درس و مشق دارم. ولی امروز وقت دارم که به آن‌ها کمک کنم! پس همین الان می‌روم و به آن‌ها کمک می‌کنم. محمد رفت داخل ساختمان.<br>
+                امین و امید و سارا دزد‌ها را شکست دادند! محمد بعد که جلو رفت، امین و امید رو دید. سلام کرد و گفت: «من هم می‌شه توی تیم‌تون بیام؟» امین و امید جواب دادند: «حتما می‌شه!»<br>
+                دزد رفت تا وسایل ربات را پیدا کند. اولین تکه توی بانک اصلی است! دزد تغییر چهره داد. دزد رفت آن‌جا و از کارکن خواست آن تکه را بهش بدهد. کارکن تکه را بهش داد. دزد با خودش گفت: «صبر کن ببینم الان همه‌ی تکه‌ها را دارم، همین الان می‌روم پیش رئیس. قربان حالا می‌تونید ربات بسازید! رئیس آن ربات را ساخت و آن الماس را برداشت و توی ربات گذاشت! ربات رفت تا آن تیم را نابود کند. ربات که جلو رفت، آن تیم هم رفتند. سپس به هم رسیدند، ربات گفت: «شماها هیچ شانسی در برابر من ندارید.» سارا گفت: «نه، ما تو رو شکست می‌دهیم!» پس بیا جنگ را شروع کنیم.<br>
+                ربات اول به آن‌ها موشک پرتاب کرد و ساختمان ریخت! و همه‌ی پلیس‌ها آزاد شدند. رئیس دزد‌ها خیلی عصبانی شد و داد زد و گفت: «دزدها حمله کنید.» پلیس‌ها و دزدها باهم جنگیدند! ربات با چند ضربه پلیس‌ها را نابود کرد و آن‌ها را دستگیر کردند. اما امید و سارا فرار کردند. رئیس دزدها دنبال امید و سارا بودند. امید و سارا از مردم خواستند یک تیم بشوند و با دزد بجنگند، ولی مردم به حرف‌های امید و سارا گوش ندادند.<br>
+                امید و سارا ناامید شدند. اما یک نفر توی تیم‌شان آمد. اسم آن نفر سینا بود. آن‌ها تکه‌های ربات را پیدا کردند، ربات را ساختند. در همان زمان دزدها تصمیم گرفته بودند که یک ارتش ربات بسازند! یکی از دزدها گفت: «ما باید یک کارخانه رو به دست بیاوریم تا بتوانیم ربات‌های زیادی درست کنیم.» همه گفتند: «همین کار را می‌کنیم.» روز بعد دزدها رفتند تا کارخانه را به دست بیاورند اما آن‌جا نگهبان‌های زیادی داشت. ولی دزدها نگهبان‌ها را شکست دادند و کارخانه به دست آوردند. در همان زمان آدم‌های خوب رفتند تا پلیس‌ها را نجات بدهند. نگهبانی نبود که جلویشان را بگیرند. به خاطر همین به آسانی توانستند پلیس‌ها را آزاد کنند. وقتی دزدها برگشتند دستگیر شدند ولی یکی از دزدها فرار کرد! روز بعد ربات‌ها ساخته شد و به شهر حمله شد. آدم‌های خوب نتوانستند ربات‌ها را شکست بدهند. خوشبختانه دو سنگ جادویی وجود دارد که اگر هر دو را کنار هم گذاشت قدرت خیلی قوی به وجود می‌آید! آدم‌های خوب رفتند تا سنگ‌ها را پیدا کنند. اول باید از جنگل رد می‌شدند. در راه خسته شدند که به یک کلبه رسیدند. رفتند توی کلبه تا استراحت کنند.<br>
+                <br>
+                فصل سوم: دنبال سنگ جادویی برویی<br>
+                صدایی شنیدند و بعد یک زامبی بیرون آمد و آن تیم فرار کردند سارا یک چاقو پیدا کرد و زامبی رو کشت! بعدش یک گرگ دیدند و فرار کردند. بعدش یک شکارچی با تفنگش گرگ را زد و گفت: «شماها چرا آمدید به اینجا؟» آن‌ها گفتند: «ربات‌ها و دزدها به شهر ما حمله کرده‌اند و ما دنبال سنگ‌های آسمان هستیم.» شکارچی خندید و گفت: «شما کاملا راه را اشتباه آمده‌اید. اول باید از اقیانوس نور رد بشوید بعدش باید اولین تکه‌ی نقشه را پیدا کنید.» آن‌ها به سوی اقیانوس نور رفتند. امید گفت: «ما که توی دریا نمی‌توانیم نفس بکشیم!» سا گفت: «پس پیش یک جادوگر می‌رویم و از او می‌خواهیم که بتوانیم زیر دریا نفس بکشیم.» سینا گفت: «ولی باید از آتشفشان رد بشویم!» امین گفت: «ما این همه خطر را پشت سر گذاشتیم پس این هم پشت سر می‌گذاریم!» آن‌ها به سوی آتشفشان رفتند. در راه لباس سنگی‌ای ساختند و پوشیدند. وقتی به آن‌جا رسیدند، یک عالمه گدازه بود! آن‌ها از آتشفشان‌ها، گدازه‌ها و همین اژدها هم رد شدند. بعدش به خانه‌ی جادوگر رفتند و از او پرسیدند: «سلام ما می‌خواهیم از اقیانوس نور رد بشویم و ما در اقیانوس نفس بکشیم...» جادوگر گفت: «آهان پس می‌خواهید در نفس بکشید.» آن‌ها گفتند: «درسته» جادوگر گفت: «اَجی مجی به این آدم‌ها قدرتی به که در دریا نفس بکشند!» آن‌ها به اقیانوس رفتند. رئیس دزدها فهمید که آدم‌های خوب کجا هستند و سربازانش خواست که آن‌ها را دستگیر کنند! آدم‌های خوب از اقیانوس هم رد شدند، اما اولین تکه‌ی نقشه را پیدا نکردند. چند دقیقه بعد شکارچی پیداش شد و گفت: «الان دارید سنگ را می‌بینید» سارا گفت: «یعنی چی؟» شکارچی یک دفعه ناپدید شد. در همین حال امید دنبال سنگ‌ها بود، که پیداش کرد و دید و گفت: «هان! باید توی فضا برویم! آخر چطوری؟» سینا گفت: «من یک دوست دارم که سفینه می‌سازد، به او می‌گویم یک سفینه هم برای ما درست کند.» سینا به آن نفر زنگ زد. سارا گفت: «ما شب را تو جا بخوابیم؟ و چی بخریم؟» علی جواب داد: «در نزدیکی اینجا جنگلی است بی‌خطر و پر غذا است، می‌تونیم شب را آنجا بمانیم.» سارا گفت: «پس سریعتر به آنجا بریم تا هوا تاریک نشده.» آن‌ها به راه افتادند و یک ساعت بعد رسیدند. آن‌ها غذا پیدا کردند و برای شب آماده شدند. روز بعد راه افتادند و سینا سفینه را گرفت و به فضا رفتند. بعدش سینا به امید گفت: «آن سنگ کجاست؟» امید جواب داد: «همین جاست!» چی! اصلاً هواسم نبود! سارا ادامه داد: «پس زودتر سنگ را برداریم و شهرمان را نجات دهیم.» آن‌ها در شهر رفتند شب آن‌جا ماندند. صبح سفینه آمد.<br>
+                آن‌ها رفتند به فضا یک اژدها فضایی یکی از بال‌های سفینه را نابود کرد. فرود آمدیم سینا و علی و سارا حواس اژدها را پرت کرد و بقیه سنگ را برداشتند اما راه برگشتی نبود. سارا سوار اژدها شد آن‌ها کنترل کرد. شهر را نجات دادند دزد را دستگیر کردند.
+            </p>
+        </div>
+
         <!-- ارتباط با ما -->
         <div class="container">
             <h2>ارتباط با ما</h2>
             <ul style="text-align: left;">
-                <li>ایمیل: <a href="mailto:baradbolhasani6@gmail.com" style="color: #ffff00;">baradbolhasani6@gmail.com</a></li>
+                <li>ایمیل: <a href="mailto:baradbolhasani6@gmail.com" style="color: var(--primary-color);">baradbolhasani6@gmail.com</a></li>
                 <li>شماره تماس: ۰۹۰۵۵۷۳۰۷۹۶</li>
-                <li>ارتباط در دیسکورد: <a href="https://discord.gg/NXFbJp3P" target="_blank" style="color: #ffff00;">لینک دیسکورد</a></li>
+                <li>ارتباط در دیسکورد: <a href="https://discord.gg/NXFbJp3P" target="_blank" style="color: var(--primary-color);">لینک دیسکورد</a></li>
+                <li>صفحه X (توییتر): <a href="https://x.com/barad1272187" target="_blank" style="color: var(--primary-color);">لینک X (توییتر)</a></li>
             </ul>
+        </div>
+
+        <!-- فرم ورود به قسمت VIP -->
+        <div class="vip-container">
+            <h2>ورود به قسمت VIP</h2>
+            <p>برای دسترسی به محتوای ویژه، لطفاً رمز عبور را وارد کنید:</p>
+            <input type="password" id="vip-password" placeholder="رمز عبور VIP را وارد کنید">
+            <button onclick="checkVipPassword()">ورود به VIP</button>
+            <p id="vip-error" style="color: var(--primary-color);"></p>
+        </div>
+
+        <!-- محتوای VIP -->
+        <div class="vip-content">
+            <h2>قسمت VIP - فیلم‌های مرتبط با ماینکرافت و ابرقهرمانی</h2>
+
+            <!-- بخش فیلم‌های مرتبط با ماینکرافت -->
+            <div class="vip-section">
+                <h3>فیلم‌های مرتبط با ماینکرافت</h3>
+                <ul>
+                    <li>
+                        <a href="https://www.youtube.com/watch?v=MmB9b5njVbA" target="_blank">
+                            <strong>فیلم ۱: Minecraft: Story Mode Trailer</strong> - تریلر سریال Minecraft: Story Mode.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.youtube.com/watch?v=1ZkK4wZ2p9M" target="_blank">
+                            <strong>فیلم ۲: Minecraft: The Movie Announcement</strong> - اعلامیه رسمی فیلم ماینکرافت.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.youtube.com/minecraft" target="_blank">
+                            <strong>فیلم ۳: کانال رسمی ماینکرافت در یوتیوب</strong> - ویدئوهای رسمی ماینکرافت.
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- بخش فیلم‌های ابرقهرمانی -->
+            <div class="vip-section">
+                <h3>فیلم‌های ابرقهرمانی</h3>
+                <ul>
+                    <li>
+                        <a href="https://www.youtube.com/watch?v=g4Hbz2jLxvQ" target="_blank">
+                            <strong>فیلم ۱: مرد عنکبوتی: به درون دنیای عنکبوتی (Spider-Man: Into the Spider-Verse)</strong> - تریلر رسمی فیلم.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.youtube.com/watch?v=d96cjJhvlMA" target="_blank">
+                            <strong>فیلم ۲: نگهبانان کهکشان (Guardians of the Galaxy)</strong> - تریلر رسمی فیلم.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.youtube.com/watch?v=VyHV0BRtdxo" target="_blank">
+                            <strong>فیلم ۳: هری پاتر و سنگ جادو (Harry Potter and the Sorcerer's Stone)</strong> - تریلر رسمی فیلم.
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 
     <footer>
-        طراحی شده از تیم B&B
+        طراحی شده از باراد بوالحسنی
     </footer>
 
     <script>
@@ -131,23 +288,55 @@
             const email = document.getElementById('email').value;
             const error = document.getElementById('error');
 
-            // بررسی سن
             if (age < 7 || age > 90) {
-                error.t
-extContent = "سن شما باید بین ۷ تا ۹۰ سال باشد.";
+                error.textContent = "سن شما باید بین ۷ تا ۹۰ سال باشد.";
                 return;
             }
 
-            // بررسی اینکه ایمیل شامل @gmail.com باشد
-            if (!email.includes("@gmail.com")) {
-                error.textContent = "ایمیل وارد شده باید شامل '@gmail.com' باشد.";
+            const emailPattern = /^[^\s@]+@gmail\.com$/;
+            if (!emailPattern.test(email)) {
+                error.textContent = "ایمیل وارد شده معتبر نیست. لطفاً یک ایمیل معتبر وارد کنید.";
                 return;
             }
 
-            // اگر همه چیز درست بود، نمایش محتوای سایت
             error.textContent = "";
             document.querySelector('.form-container').style.display = 'none';
             document.querySelector('.content').style.display = 'block';
+        }
+
+        // تغییر رنگ‌ها توسط کاربر
+        const bgColorInput = document.getElementById('bg-color');
+        const primaryColorInput = document.getElementById('primary-color');
+        const secondaryColorInput = document.getElementById('secondary-color');
+        const textColorInput = document.getElementById('text-color');
+
+        bgColorInput.addEventListener('input', () => {
+            document.documentElement.style.setProperty('--bg-color', bgColorInput.value);
+        });
+
+        primaryColorInput.addEventListener('input', () => {
+            document.documentElement.style.setProperty('--primary-color', primaryColorInput.value);
+        });
+
+        secondaryColorInput.addEventListener('input', () => {
+            document.documentElement.style.setProperty('--secondary-color', secondaryColorInput.value);
+        });
+
+        textColorInput.addEventListener('input', () => {
+            document.documentElement.style.setProperty('--text-color', textColorInput.value);
+        });
+
+        // بررسی رمز عبور VIP
+        function checkVipPassword() {
+            const vipPassword = document.getElementById('vip-password').value;
+            const vipError = document.getElementById('vip-error');
+
+            if (vipPassword === "bb@13941394") {
+                vipError.textContent = "";
+                document.querySelector('.vip-content').style.display = 'block';
+            } else {
+                vipError.textContent = "رمز عبور اشتباه است!";
+            }
         }
     </script>
 </body>
